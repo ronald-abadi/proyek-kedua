@@ -1,0 +1,76 @@
+---
+# Ronald Mulyono Abadi
+# DBS Foundation Coding Camp 2023, Learning Path DevOps Engineer
+# Kelas Expert, Belajar Membangun Arsitektur Microservices
+# Submission Proyek Kedua: Proyek Deploy Aplikasi Karsa Jobs dengan Kubernetes
+# File: mongo-statefulset.yml
+
+apiVersion: apps/v1
+
+# Membuat StatefulSet
+kind: StatefulSet
+
+metadata:
+  name: mongo-statefulset
+  labels:
+    type: mongo
+    environment: proyek-kedua
+    
+spec:
+  # Selector dibuat seragam sama dengan labels yang di metadata
+  selector:
+    matchLabels:
+      type: mongo
+      environment: proyek-kedua    
+  serviceName: mongo-service
+  # Replica sementara cukup 1 saja ya
+  replicas: 1
+  # minReadySeconds saya buat 15 detik
+  minReadySeconds: 15
+  template:
+    metadata:
+      labels:
+        type: mongo
+        environment: proyek-kedua
+    spec:
+      # terminationGracePeriodSeconds saya buat 15 detik
+      terminationGracePeriodSeconds: 15
+      containers:      
+        - image: mongo    
+          # Ambil image-nya dari Docker Hub yaitu mongo:latest
+          # Hanya apabila belum ada di lokal
+          name: mongo
+          imagePullPolicy: IfNotPresent
+          # Environment variable, mengikuti instruksi di materi
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME_FILE
+              value: /etc/mongo-credentials/MONGO_ROOT_USERNAME
+            - name: MONGO_INITDB_ROOT_PASSWORD_FILE
+              value: /etc/mongo-credentials/MONGO_ROOT_PASSWORD        
+          # Ports saya samakan dengan default yang biasa dipakai MongoDB
+          ports:
+          - containerPort: 27017
+            name: mongo
+          # volumeMounts disamakan dengan yang di bawah (lihat volumes)  
+          volumeMounts:
+          - name: mongo-persistent-storage
+            mountPath: /data/db
+          - name: mongo-configmap-volume
+            mountPath: /config
+          - name: mongo-secret-volume
+            mountPath: /etc/mongo-credentials
+      volumes:
+        - name: mongo-persistent-storage
+          persistentVolumeClaim:
+            claimName: mongo-pvc # Disamakan dengan yang di mongo-pv-pvc.yml
+        - name: mongo-configmap-volume
+          configMap:
+            name: mongo-configmap # Disamakan dengan yang di mongo-configmap.yml
+            items:
+              - key: mongo.conf
+                path: mongo.conf
+        - name: mongo-secret-volume
+          secret:
+            secretName: mongo-secret # Disamakan dengan yang di mongo-secret.yml
+# Connection String kalau mau dicoba: 
+# mongodb://admin:supersecretpassword@192.168.49.2:30003/?authMechanism=DEFAULT

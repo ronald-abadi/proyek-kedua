@@ -1,0 +1,18 @@
+REPOSITORY                       TAG         IMAGE ID       CREATED          SIZE
+karsajobs-ui                     latest      da4ab1e53c81   2 seconds ago    352MB
+karsajobs                        latest      59bcd1817c70   13 minutes ago   642MB
+ronaldabadi/karsajobs            latest      59bcd1817c70   13 minutes ago   642MB
+ghcr.io/ronald-abadi/karsajobs   latest      59bcd1817c70   13 minutes ago   642MB
+item-app                         v1          6c07ac1c7044   5 days ago       949MB
+ronaldabadi/item-app             v1          6c07ac1c7044   5 days ago       949MB
+ghcr.io/ronald-abadi/item-app    v1          6c07ac1c7044   5 days ago       949MB
+nginx                            latest      f5a6b296b8a2   8 days ago       187MB
+registry                         2           0030ba3d620c   5 weeks ago      24.1MB
+gcr.io/k8s-minikube/kicbase      v0.0.40     c6cc01e60919   2 months ago     1.19GB
+prom/prometheus                  latest      e1fbd49323c6   2 months ago     236MB
+grafana/grafana                  latest      d7a5fb570941   2 months ago     328MB
+myjenkins-blueocean              2.346.1-1   3583d044f00f   3 months ago     779MB
+docker                           dind        d688977ba8f6   3 months ago     329MB
+node                             14          1d12470fa662   5 months ago     912MB
+node                             12-alpine   bb6d28039b8c   17 months ago    91MB
+mongo                            3           2f21415cb85f   2 years ago      453MB

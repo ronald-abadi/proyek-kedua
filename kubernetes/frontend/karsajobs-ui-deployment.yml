@@ -1,0 +1,48 @@
+---
+# Ronald Mulyono Abadi
+# DBS Foundation Coding Camp 2023, Learning Path DevOps Engineer
+# Kelas Expert, Belajar Membangun Arsitektur Microservices
+# Submission Proyek Kedua: Proyek Deploy Aplikasi Karsa Jobs dengan Kubernetes
+# File: karsajobs-ui-deployment.yml
+
+apiVersion: apps/v1
+
+# Membuat Deployment
+kind: Deployment
+
+metadata:
+  name: karsajobs-ui-deployment
+  labels:
+    app: karsajobs-ui
+    type: frontend
+    environment: proyek-kedua  
+
+spec:
+  # Replicas 1 saja ya, resource laptop terbatas...
+  replicas: 1
+  # Batasi sejarah revisi 3 saja
+  revisionHistoryLimit: 3
+  # Selector dibuat seragam sama dengan labels yang di metadata
+  selector:
+    matchLabels:
+      app: karsajobs-ui
+      type: frontend
+      environment: proyek-kedua
+  template:
+    metadata:
+      labels:
+        app: karsajobs-ui
+        type: frontend
+        environment: proyek-kedua
+    spec:
+      containers:
+      - name: karsajobs-ui-container
+        image: ghcr.io/ronald-abadi/karsajobs-ui
+        # Environment variable untuk VUE_APP_BACKEND ambil dari:
+        # minikube service karsajobs-service --url
+        env:
+        - name: VUE_APP_BACKEND
+          value: http://192.168.49.2:30001          
+        # Disamakan dengan Port yang di Docker-nya  
+        ports:
+        - containerPort: 8000

@@ -1,0 +1,34 @@
+---
+# Ronald Mulyono Abadi
+# DBS Foundation Coding Camp 2023, Learning Path DevOps Engineer
+# Kelas Expert, Belajar Membangun Arsitektur Microservices
+# Submission Proyek Kedua: Proyek Deploy Aplikasi Karsa Jobs dengan Kubernetes
+# File: karsajobs-ui-service.yml
+
+apiVersion: v1
+
+# Membuat Service
+
+kind: Service
+
+metadata:
+  name: karsajobs-ui-service
+  labels:
+    app: karsajobs-ui
+    type: frontend
+    environment: proyek-kedua
+
+spec:
+  # NodePort dengan nodePort 30002
+  # Untuk port dan targetPort samakan dengan yang di Deployment  
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000
+    nodePort: 30002
+  # Selector dibuat seragam sama dengan labels yang di metadata  
+  selector:
+    app: karsajobs-ui
+    type: frontend
+    environment: proyek-kedua

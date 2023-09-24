@@ -1,0 +1,23 @@
+---
+# Ronald Mulyono Abadi
+# DBS Foundation Coding Camp 2023, Learning Path DevOps Engineer
+# Kelas Expert, Belajar Membangun Arsitektur Microservices
+# Submission Proyek Kedua: Proyek Deploy Aplikasi Karsa Jobs dengan Kubernetes
+# File: mongo-configmap.yml
+
+apiVersion: v1
+
+# Membuat ConfigMap
+kind: ConfigMap
+
+metadata:
+  name: mongo-configmap
+  labels:
+    type: mongo
+    environment: proyek-kedua
+
+data:
+  # Sesuai instruksi di tab "Lainnya" di Instruksi Submission  
+  mongo.conf: |
+    storage:
+      dbPath: /data/db

@@ -1,0 +1,17 @@
+---
+# Ronald Mulyono Abadi
+# DBS Foundation Coding Camp 2023, Learning Path DevOps Engineer
+# Kelas Expert, Belajar Membangun Arsitektur Microservices
+# Submission Proyek Kedua: Proyek Deploy Aplikasi Karsa Jobs dengan Kubernetes
+# File: monitoring-namespace.yml
+
+apiVersion: v1
+
+# Membuat Namespace
+kind: Namespace
+
+metadata:
+  # Namespace diberi nama monitoring, sesuai instruksi
+  name: monitoring
+  labels:
+    name: monitoring

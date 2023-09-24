@@ -1,0 +1,30 @@
+---
+# Ronald Mulyono Abadi
+# DBS Foundation Coding Camp 2023, Learning Path DevOps Engineer
+# Kelas Expert, Belajar Membangun Arsitektur Microservices
+# Submission Proyek Kedua: Proyek Deploy Aplikasi Karsa Jobs dengan Kubernetes
+# File: mongo-service.yml
+
+apiVersion: v1
+
+# Membuat Service
+kind: Service
+
+metadata:
+  name: mongo-service
+  labels:
+    type: mongo
+    environment: proyek-kedua
+    
+spec:
+  # NodePort dengan nodePort 30003
+  # Untuk port dan targetPort samakan dengan yang di Deployment, default dari MongoDB  
+  type: NodePort
+  ports:
+  - port: 27017
+    targetPort: 27017
+    nodePort: 30003     
+  # Selector dibuat seragam sama dengan labels yang di metadata  
+  selector:
+    type: mongo
+    environment: proyek-kedua

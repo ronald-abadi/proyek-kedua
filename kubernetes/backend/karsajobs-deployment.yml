@@ -1,0 +1,59 @@
+---
+# Ronald Mulyono Abadi
+# DBS Foundation Coding Camp 2023, Learning Path DevOps Engineer
+# Kelas Expert, Belajar Membangun Arsitektur Microservices
+# Submission Proyek Kedua: Proyek Deploy Aplikasi Karsa Jobs dengan Kubernetes
+# File: karsajobs-deployment.yml
+
+apiVersion: apps/v1
+
+# Membuat Deployment
+kind: Deployment
+
+metadata:
+  name: karsajobs-deployment
+  labels:
+    app: karsajobs
+    type: backend
+    environment: proyek-kedua
+    
+spec:
+  # Replicas 1 saja ya, resource laptop terbatas...
+  replicas: 1
+  # Batasi sejarah revisi 3 saja
+  revisionHistoryLimit: 3
+  # Selector dibuat seragam sama dengan labels yang di metadata
+  selector:
+    matchLabels:
+      app: karsajobs
+      type: backend
+      environment: proyek-kedua
+  template:
+    metadata:
+      labels:
+        app: karsajobs
+        type: backend
+        environment: proyek-kedua
+    spec:
+      containers:
+        - name: karsajobs-container
+          image: ghcr.io/ronald-abadi/karsajobs
+          # Environment variables, sesuai instruksi di materi
+          env:
+          - name: APP_PORT
+            value: "8080"
+          - name: MONGO_HOST        
+            value: mongo-service
+          - name: MONGO_USER
+            valueFrom:
+              secretKeyRef:
+                name: mongo-secret
+                key: MONGO_ROOT_USERNAME
+          - name: MONGO_PASS
+            valueFrom:
+              secretKeyRef:
+                name: mongo-secret
+                key: MONGO_ROOT_PASSWORD     
+          # Disamakan dengan Port yang di Docker-nya      
+          ports:
+          - containerPort: 8080

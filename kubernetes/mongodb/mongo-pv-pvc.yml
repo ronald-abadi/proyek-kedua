@@ -1,0 +1,51 @@
+---
+# Ronald Mulyono Abadi
+# DBS Foundation Coding Camp 2023, Learning Path DevOps Engineer
+# Kelas Expert, Belajar Membangun Arsitektur Microservices
+# Submission Proyek Kedua: Proyek Deploy Aplikasi Karsa Jobs dengan Kubernetes
+# File: mongo-pv-pvc.yml
+
+apiVersion: v1
+
+# Membuat PersistentVolume
+kind: PersistentVolume
+
+metadata:
+  name: mongo-pv
+  labels:
+    type: mongo
+    environment: proyek-kedua
+    
+spec:
+  storageClassName: manual
+  capacity:
+    # 1Gi harusnya cukup ya. Harddisk laptop saya terbatas space-nya
+    storage: 1Gi    
+  accessModes:
+    - ReadWriteOnce
+  # persistentVolumeReclaimPolicy di-set Retain agar tidak hilang
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/data/db"
+    
+---    
+apiVersion: v1
+
+# Membuat PersistentVolumeClaim
+kind: PersistentVolumeClaim
+
+metadata:
+  name: mongo-pvc
+  labels:
+    type: mongo
+    environment: proyek-kedua  
+
+spec:
+  storageClassName: manual
+  # accessModes disamakan dengan yang di PersistentVolume
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      # Tidak boleh melebihi yang di PersistentVolume
+      storage: 1Gi
