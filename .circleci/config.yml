@@ -7,8 +7,12 @@
 # Submission Proyek Kedua: Proyek Deploy Aplikasi Karsa Jobs dengan Kubernetes
 # File: ./circleci/config.yml
 
-# Resources:
-# - https://emmer.dev/blog/linting-dockerfiles-with-hadolint/
+# Catatan:
+# - Karena saya awam soal CircleCI dan di materi tidak 
+#   diterangkan, maka saya googling untuk hal ini dan
+#   putuskan untuk mengikuti langkah-langkah di
+#   https://emmer.dev/blog/linting-dockerfiles-with-hadolint/
+#   terutama untuk yang berhubungan dengan lint-dockerfile
 
 version: 2.1
 
@@ -36,6 +40,7 @@ jobs:
           name: "install dan jalankan hadolint"
           command: docker run --rm --interactive hadolint/hadolint < karsajobs/
   test-app:
+    # Lakukan sesuai dengan instruksi
     docker:
       - image: cimg/go:1.19.3
     steps:
@@ -44,6 +49,8 @@ jobs:
           name: "lakukan test sesuai instruksi"
           command: cd karsajobs && go test -v -short --count=1 $(go list ./...)
   build-app-karsajobs:
+    # Jalankan build_push_image_karsajobs.sh
+    # Catatan: untuk path, sebelumnya saya coba pwd dan hasilnya /root/project
     executor: docker
     steps:
       - checkout
@@ -60,6 +67,7 @@ jobs:
           name: "install dan jalankan hadolint"
           command: docker run --rm --interactive hadolint/hadolint < karsajobs-ui/
   build-app-karsajobs-ui:
+    # Jalankan build_push_image_karsajobs_ui.sh
     executor: docker
     steps:
       - checkout
